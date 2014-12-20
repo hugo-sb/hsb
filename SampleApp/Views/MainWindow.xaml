@@ -1,0 +1,67 @@
+﻿<Window x:Class="SampleApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:localViews="clr-namespace:SampleApp.Views"
+        Title="蔵書管理" Height="400" Width="800" ResizeMode="NoResize"> 
+    <Window.Resources>
+        <localViews:BookCategories2DisplayName x:Key="BookCategories2DisplayName" />
+        <localViews:ReviewPoint2Stars x:Key="ReviewPoint2Stars" />
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Right" Width="100" Margin="10,20,20,20"  >
+                <StackPanel Orientation="Vertical">
+                    <Button Content="{Binding AddBookCommand.Name}" Margin="0,0,0,10" Padding="5" Command="{Binding AddBookCommand}" ToolTip="{Binding AddBookCommand.Description}" />
+                    <Button Content="{Binding EditBookCommand.Name}" Margin="0,0,0,10" Padding="5" Command="{Binding EditBookCommand}" ToolTip="{Binding EditBookCommand.Description}" />
+                    <Button Content="{Binding RemoveBookCommand.Name}" Margin="0,0,0,30" Padding="5" Command="{Binding RemoveBookCommand}" ToolTip="{Binding RemoveBookCommand.Description}" />
+                    <Button Content="{Binding PrintBookListCommand.Name}" Margin="0,0,0,10" Padding="5" Command="{Binding PrintBookListCommand}" ToolTip="{Binding PrintBookListCommand.Description}" />
+                    <Button Content="{Binding PreviewBookListCommand.Name}" Margin="0,0,0,30" Padding="5" Command="{Binding PreviewBookListCommand}" ToolTip="{Binding PreviewBookListCommand.Description}" />
+                    <Button Content="{Binding CloseViewCommand.Name}" Margin="0,0,0,10" Padding="5" Command="{Binding CloseViewCommand}" ToolTip="{Binding CloseViewCommand.Description}" />
+                </StackPanel>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Margin="20,20,10,20" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="37" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="Silver" BorderThickness="1,1,1,0" Margin="0" Padding="5,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID" TextAlignment="Right" Margin="2" Width="15" />
+                        <StackPanel Orientation="Vertical" Margin="10,2,0,2" Width="150">
+                            <TextBlock Text="書名" Margin="0,0,0,2" />
+                            <TextBlock Text="著者" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10,2,0,2" Width="100">
+                            <TextBlock Text="出版社" Margin="0,0,0,2"/>
+                            <TextBlock Text="カテゴリー"/>
+                        </StackPanel>
+                        <TextBlock Text="価格" TextAlignment="Right"  Margin="10,2,0,2" Width="50"/>
+                        <TextBlock Text="購入日" TextAlignment="Right" Margin="10,2,0,2" Width="100" />
+                        <TextBlock Text="評価点"  Margin="10,2,10,2" Width="100"/>
+                    </StackPanel>
+                </Border>
+                <ListBox Name="BookList" Grid.Row="1" Margin="0"
+                         ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook, Mode=TwoWay}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Id, StringFormat='##;-##;*'}" TextAlignment="Right" Margin="2" Width="15" />
+                                <StackPanel Orientation="Vertical" Margin="10,2,0,2" Width="150">
+                                    <TextBlock Text="{Binding Title}" Margin="0,0,0,2" />
+                                    <TextBlock Text="{Binding Author}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="10,2,0,2" Width="100">
+                                    <TextBlock Text="{Binding Publisher}" Margin="0,0,0,2"/>
+                                    <TextBlock Text="{Binding Category, Converter={StaticResource ResourceKey=BookCategories2DisplayName}}"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Price, StringFormat='#,##0円'}" TextAlignment="Right"  Margin="10,2,0,2" Width="50"/>
+                                <TextBlock Text="{Binding PurchaseDate, StringFormat='yyyy/MM/dd'}" TextAlignment="Right" Margin="10,2,0,2" Width="100" />
+                                <TextBlock Text="{Binding ReviewPoint, Converter={StaticResource ResourceKey=ReviewPoint2Stars}}"  Margin="10,2,10,2" Width="100"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
